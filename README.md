@@ -22,3 +22,9 @@ Edit and save file
 6. `sudo systemctl restart postgresql`
 
 7. Enjoy 
+
+
+
+## Note
+
+1. Symbol @ - must be passed in as %40 in sqlalchemy.create_engine()

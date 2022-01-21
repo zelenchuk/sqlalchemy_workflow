@@ -6,6 +6,14 @@
 
 # print(engine)
 
+# https://pythonru.com/biblioteki/shemy-sqlalchemy-core
+# https://eax.me/python-psycopg2/
+
+# https://khashtamov.com/ru/postgresql-python-psycopg2/
+
+
+# TODO https://coderlessons.com/tutorials/bazy-dannykh/sqlalchemy/sqlalchemy-kratkoe-rukovodstvo
+
 
 from dotenv import dotenv_values
 config = dotenv_values(".env")
@@ -22,23 +30,26 @@ params = {
   'port': config['DB_PORT'],
 }
 
-# conn = psycopg2.connect(**params)
+conn = psycopg2.connect(**params)
 
 
-# cur = conn.cursor()
+cur = conn.cursor()
 
 # cur.execute("SELECT * FROM auth_user")
 
-# # Retrieve query results
-# records = cur.fetchall()
-# # print(records)
-
-# for service in records:
-# 	print(service)
-# 	print("="*50)
+cur.execute("SELECT version()")
 
 
-# cur.close()
+# Retrieve query results
+records = cur.fetchall()
+# print(records)
+
+for service in records:
+	print(service)
+	print("="*50)
+
+
+cur.close()
 
 
 # conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
@@ -52,17 +63,19 @@ params = {
 # conn.close()
 
 
-from sqlalchemy import create_engine
+# from sqlalchemy import create_engine, select, table, column
 
-a = 'postgresql+psycopg2://'+ params['user'] + ':' + params['password'] +'@' + params['host'] + ':' +params['port'] + '/' + params['dbname']
+# a = 'postgresql+psycopg2://'+ params['user'] + ':' + params['password'] +'@' + params['host'] + ':' +params['port'] + '/' + params['dbname']
 
 # engine = create_engine(a)
 
+# conn = engine.connect()
+
+# s = select(table('auth_user'))
+# r = conn.execute(s)
+
+# users = r.fetchall()
 
 
-# engine.connect()
-
-# print(engine)
-
-
-print(a)
+# for user in users:
+# 	print(user)
