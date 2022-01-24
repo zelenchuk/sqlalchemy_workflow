@@ -20,46 +20,46 @@ c = conn.cursor()
 # Create Update function to update a record
 def update():
     record_id = delete_box.get()
-    print(title.get(),
-          value.get(),
-          transaction_type.get(),
-          income.get(),
+
+    print(title_editor.get(),
+          value_editor.get(),
+          type_editor.get(),
+          income_editor.get(),
           datetime.now().strftime("%Y-%m-%d %H:%M:%S"),  # like SQLite default
           record_id, )
 
-    # # Create a database or connect to one
-    # conn = sqlite3.connect('finance_app.db')
-    # # Create cursor
-    # c = conn.cursor()
-    #
-    #
-    #
-    # c.execute("""UPDATE transactions SET
+    # Create a database or connect to one
+    conn = sqlite3.connect('finance_app.db')
+    # Create cursor
+    c = conn.cursor()
+
+    c.execute("""UPDATE transactions SET
 
 
-# 	title = ?,
-# 	value = ?,
-# 	type = ?,
-# 	income = ?,
-# 	date = ?
-# 	WHERE id=?""",
-#           (
-#               title.get(),
-#               value.get(),
-#               transaction_type.get(),
-#               income.get(),
-#               datetime.now().strftime("%Y-%m-%d %H:%M:%S"),  # like SQLite default
-#               record_id,
-#           ))
-#
-# # Commit Changes
-# conn.commit()
-#
-# # Close Connection
-# conn.close()
-#
-# editor.destroy()
-# root.deiconify()
+	title = ?,
+	value = ?,
+	type = ?,
+	income = ?,
+	date = ?
+	WHERE id=?""",
+              (
+                  title_editor.get(),
+                  value_editor.get(),
+                  type_editor.get(),
+                  income_editor.get(),
+                  datetime.now().strftime("%Y-%m-%d %H:%M:%S"),  # like SQLite default
+                  record_id,
+              ))
+
+
+    # Commit Changes
+    conn.commit()
+
+    # Close Connection
+    conn.close()
+
+    editor.destroy()
+    root.deiconify()
 
 
 # Create Edit function to update a record
@@ -82,20 +82,13 @@ def edit():
     c.execute("SELECT * FROM transactions WHERE id=?", (record_id,))
     records = c.fetchall()
 
-    # print(records)
-    # Create Global Variables for text box names
-    global title
-    global value
-    global transaction_type
-    global income
+    print(records)
 
-    # TODO check this global shit. Bottom print show only date and record_id data
-    print(title.get(),
-          value.get(),
-          transaction_type.get(),
-          income.get(),
-          datetime.now().strftime("%Y-%m-%d %H:%M:%S"),  # like SQLite default
-          record_id, )
+    # Create Global Variables for text box names
+    global title_editor
+    global value_editor
+    global type_editor
+    global income_editor
 
     # Create Text Boxes
     title_editor = Entry(editor, width=30)
@@ -125,10 +118,18 @@ def edit():
 
     # Loop thru results
     for record in records:
-        title_editor.insert(0, record[0])
-        value_editor.insert(0, record[1])
-        type_editor.insert(0, record[2])
-        income_editor.insert(0, record[3])
+        title_editor.insert(0, record[1])
+        value_editor.insert(0, record[2])
+        type_editor.insert(0, record[3])
+        income_editor.insert(0, record[4])
+
+    # TODO check this global shit. Bottom print show only date and record_id data
+    # print(title_editor.get(),
+    #       value_editor.get(),
+    #       type_editor.get(),
+    #       income_editor.get(),
+    #       datetime.now().strftime("%Y-%m-%d %H:%M:%S"),  # like SQLite default
+    #       record_id, )
 
     # Create a Save Button To Save edited record
     edit_btn = Button(editor, text="Save", command=update)
